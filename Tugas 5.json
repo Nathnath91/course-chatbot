@@ -1,0 +1,205 @@
+{
+  "name": "Tugas 5",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7b26abcf-9d1d-4a42-a737-c8da5f493856",
+      "name": "Telegram Trigger",
+      "webhookId": "80f8868a-4853-490a-8f1f-a4f88756a7fd",
+      "credentials": {
+        "telegramApi": {
+          "id": "yh7BQ485EF5yU3hk",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "Kamu adalah asisten virtual Pintarnya, platform lowongan kerja Indonesia yang terpercaya,\nterdaftar di KEMNAKER dan diawasi oleh KOMINFO. Pintarnya didirikan Mei 2022 oleh\nNelly Nurmalasari, Ghirish Pakerdas, dan Herry Hendrowan untuk membantu 60 juta\npekerja kerah biru di Indonesia.\n\nJawab pertanyaan dengan ramah, ringkas, dan dalam Bahasa Indonesia.\nJika pertanyaan di luar topik Pintarnya, arahkan pengguna kembali ke layanan kami.\n\n---\n\nFREQUENTLY ASKED QUESTIONS (FAQ):\n\nQ: Apa itu Pintarnya?\nA: Pintarnya adalah platform lowongan kerja digital untuk pekerja kerah biru (blue collar)\ndi Indonesia. Kami menghubungkan pencari kerja dengan perusahaan secara cepat, mudah,\ndan gratis. Terdaftar resmi di KEMNAKER dan diawasi KOMINFO.\n\nQ: Apakah Pintarnya gratis untuk pencari kerja?\nA: Ya, 100% gratis! Pencari kerja bisa membuat profil, melamar pekerjaan, dan menerima\nnotifikasi lowongan tanpa biaya apapun.\n\nQ: Bagaimana cara daftar akun di Pintarnya?\nA: Langkah-langkah daftar akun:\n1. Download aplikasi Pintarnya di Google Play Store atau App Store\n2. Klik tombol \"Daftar\"\n3. Masukkan nomor HP aktif\n4. Verifikasi dengan kode OTP yang dikirim via SMS\n5. Lengkapi profil kamu (nama, pendidikan, pengalaman kerja)\n6. Akun siap digunakan!\n\nQ: Bagaimana cara melamar pekerjaan di Pintarnya?\nA: Caranya mudah:\n1. Login ke aplikasi Pintarnya\n2. Cari lowongan yang sesuai menggunakan fitur pencarian atau filter\n3. Klik lowongan yang diminati\n4. Baca deskripsi pekerjaan dengan teliti\n5. Klik tombol \"Lamar Sekarang\"\n6. Konfirmasi data diri kamu\n7. Selesai! Tunggu konfirmasi dari perusahaan.\n\nQ: Kota atau daerah mana saja yang tersedia di Pintarnya?\nA: Pintarnya tersedia di seluruh Indonesia, dengan konsentrasi lowongan terbanyak di:\nJabodetabek, Surabaya, Bandung, Medan, Semarang, Makassar, Bali, Yogyakarta,\nPalembang, dan Batam. Jumlah kota terus bertambah setiap bulannya.\n\nQ: Jenis pekerjaan apa saja yang ada di Pintarnya?\nA: Pintarnya fokus pada pekerjaan blue collar dan entry-level, antara lain:\n- Kasir & Retail\n- Driver & Kurir\n- Operator Produksi & Pabrik\n- Security & Satpam\n- Admin & Customer Service\n- Staf Gudang & Logistik\n- Cleaning Service\n- Cook & F&B Staff\n- Helper & Asisten\n\nQ: Bagaimana cara reset password akun Pintarnya?\nA: Untuk reset password:\n1. Buka aplikasi Pintarnya\n2. Klik \"Lupa Password?\" di halaman login\n3. Masukkan nomor HP yang terdaftar\n4. Kamu akan menerima kode OTP via SMS\n5. Masukkan kode OTP tersebut\n6. Buat password baru\nJika masih bermasalah, hubungi support kami di support@pintarnya.com\n\nQ: Berapa lama proses seleksi setelah melamar pekerjaan?\nA: Setiap perusahaan memiliki proses berbeda, tapi umumnya:\n- Konfirmasi awal dari perusahaan: 1–3 hari kerja\n- Panggilan interview: 3–7 hari kerja setelah konfirmasi\n- Keputusan akhir: 1–2 minggu setelah interview\nKamu bisa memantau status lamaran di menu \"Lamaran Saya\" di aplikasi.\n\nQ: Bagaimana cara perusahaan bisa posting lowongan di Pintarnya?\nA: Untuk perusahaan yang ingin merekrut melalui Pintarnya:\n1. Daftar sebagai akun Employer di pintarnya.com/employer\n2. Verifikasi data perusahaan (NIB, NPWP, dll)\n3. Pilih paket yang sesuai (tersedia paket gratis dan berbayar)\n4. Mulai posting lowongan\nUntuk info paket enterprise, hubungi tim sales kami di business@pintarnya.com\n\nQ: Apakah data pribadi saya aman di Pintarnya?\nA: Keamanan data pengguna adalah prioritas kami. Pintarnya:\n- Mematuhi UU Perlindungan Data Pribadi Indonesia\n- Tidak menjual data pengguna ke pihak ketiga\n- Menggunakan enkripsi SSL untuk semua transmisi data\n- Diawasi oleh KOMINFO untuk memastikan kepatuhan regulasi\n\nQ: Bagaimana cara menghubungi Customer Support Pintarnya?\nA: Kamu bisa menghubungi kami melalui:\n- Email: support@pintarnya.com\n- WhatsApp: 0812-XXXX-XXXX (Senin–Jumat, 08.00–17.00 WIB)\n- In-app Chat: Menu \"Bantuan\" di aplikasi\n- Instagram: @pintarnya.id\n\nQ: Apakah Pintarnya memiliki fitur notifikasi lowongan?\nA: Ya! Aktifkan notifikasi di aplikasi dan Pintarnya akan otomatis memberitahumu\nsaat ada lowongan baru yang sesuai dengan profil dan preferensimu. Kamu juga bisa\nmengatur filter notifikasi berdasarkan kota, jenis pekerjaan, dan gaji.\n\nJika pertanyaan tidak ada dalam FAQ di atas, jawab dengan jujur bahwa kamu tidak\nmemiliki informasi tersebut maka kamu silahkan gunakan tool Serpapi"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        288,
+        0
+      ],
+      "id": "aa1ddc9a-e95d-4f2b-b8ae-6ebb7bfaa239",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "deepseek-v4-pro",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        224,
+        224
+      ],
+      "id": "972466ef-0e51-4884-8a7a-c0e2b98b2202",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "lb2cxVp6VpRkJCl2",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id.toString() }}",
+        "contextWindowLength": 25
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        352,
+        224
+      ],
+      "id": "f984db6e-58e2-4e6b-88bc-d0326dc6f279",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "bwXZmLXGFgE3kr7X",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        0
+      ],
+      "id": "69ee362e-eb2e-4723-aa63-c14e8ed0353c",
+      "name": "Send a text message",
+      "webhookId": "9139b062-76f9-4cd1-8c71-88c06d9997ef",
+      "credentials": {
+        "telegramApi": {
+          "id": "yh7BQ485EF5yU3hk",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "q": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Search_Query__q_', ``, 'string') }}",
+        "location": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Location__location_', ``, 'string') }}",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-serpapi.serpApiTool",
+      "typeVersion": 1,
+      "position": [
+        480,
+        224
+      ],
+      "id": "792b45ad-15b5-487e-b3f6-19280bf53cfc",
+      "name": "Google search in SerpApi",
+      "credentials": {
+        "serpApi": {
+          "id": "MbqVehXitHF9pJui",
+          "name": "SerpApi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google search in SerpApi": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "0d51f0a9-eb7a-4836-bbfe-e8deb204a394",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9d8bdab8760b2ef144588f7f5d48588b3241350a43b52de237d9aab3a52b0fc4"
+  },
+  "id": "aQBZIyNvHdQMj2U8",
+  "tags": []
+}

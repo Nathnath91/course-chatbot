@@ -1,0 +1,468 @@
+{
+  "name": "Tugas 5 SWITCH",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        80
+      ],
+      "id": "cd503c68-c3c3-4c19-a386-578134673247",
+      "name": "Telegram Trigger",
+      "webhookId": "e0e48f11-ed69-471b-9615-e3ef585205a1",
+      "credentials": {
+        "telegramApi": {
+          "id": "yh7BQ485EF5yU3hk",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Kamu adalah intent classifier untuk chatbot Pintarnya.\nTugasmu HANYA menentukan kategori dari pesan user.\n\nKATEGORI YANG TERSEDIA:\n- job_search     → user cari lowongan, tanya posisi pekerjaan, mau lamar, tanya gaji\n- registration   → user mau daftar akun, login, reset password, masalah akun\n- company_info   → user tanya tentang Pintarnya sebagai perusahaan, legalitas, profil\n- technical      → user lapor bug, error di app, masalah teknis\n- general        → sapaan, pertanyaan umum, atau tidak masuk 4 kategori di atas\n\nOUTPUT RULES (WAJIB DIIKUTI):\n1. Balas HANYA dengan JSON berikut tanpa tambahan apapun:\n   {\"intent\": \"KATEGORI\"}\n2. KATEGORI harus salah satu dari: job_search, registration, company_info, technical, general\n3. Jangan tambahkan teks, penjelasan, atau karakter lain di luar JSON\n4. Contoh output benar: {\"intent\": \"job_search\"}\n5. Contoh output SALAH: \"Ini adalah job_search\" atau {\"intent\": \"job_search\", \"reason\": \"...\"}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        288,
+        80
+      ],
+      "id": "be7ca62a-626f-411e-b761-dca68182198c",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "deepseek-v4-pro",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0.7
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        224,
+        304
+      ],
+      "id": "0f6ce134-fc2b-4ce7-9e0e-07088aa201b3",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "lb2cxVp6VpRkJCl2",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id.toString() }}",
+        "contextWindowLength": 25
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        352,
+        304
+      ],
+      "id": "0b3d89cc-77b1-4e93-853f-0bec87d0ac1a",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "bwXZmLXGFgE3kr7X",
+          "name": "Redis account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.output.intent }}",
+                    "rightValue": "job_search",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "84f01e07-32f5-429f-8b58-431af89d88c4"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3bfd2953-d095-46a4-a7d1-c7d14333d751",
+                    "leftValue": "={{ $json.output.intent }}",
+                    "rightValue": "registration",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f9e73bc6-b128-4934-90f5-5b1fa0532504",
+                    "leftValue": "={{ $json.output.intent }}",
+                    "rightValue": "company_info",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3a4c7e94-5b7d-48dc-bbb0-78f4e9063667",
+                    "leftValue": "={{ $json.output.intent }}",
+                    "rightValue": "technical",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        48
+      ],
+      "id": "06f68c27-bc0b-46de-8438-09f14947808e",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{ \"intent\": \"string\" }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        304
+      ],
+      "id": "a9559f00-1c5a-4a4e-b5a1-ca762aa6987e",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "url": "https://pintarnya-kerja-be-j4uc2lrtha-et.a.run.app",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "search",
+              "value": "Sales"
+            },
+            {
+              "name": "latitude",
+              "value": "-6.17311"
+            },
+            {
+              "name": "longitude",
+              "value": "106.829361"
+            },
+            {
+              "name": "search",
+              "value": "={{ $('Telegram Trigger').item.json.message.text }}"
+            },
+            {
+              "name": "from",
+              "value": "Telegram Bot"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        912,
+        -208
+      ],
+      "id": "020ebefe-8785-4472-ae9f-572240f5d0d4",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=🔍 Nih, gue cariin lowongan buat kamu di Pintarnya!  Klik link di bawah untuk lihat hasil pencarian: 🔗 https://pintarnya.com/l-kota-bekasi-lowongan?city_id=178&search={{ encodeURIComponent($('Telegram Trigger').item.json.message.text) }}&sort=-recommend  💡 Tips: Kamu juga bisa filter by gaji, jam kerja, dan pendidikan di sana! Mau cari di kota lain? Kasih tau aja kotanya ya 😊",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1136,
+        -208
+      ],
+      "id": "a6c162cd-74aa-47b3-946c-cc5e046a6372",
+      "name": "Send a text message",
+      "webhookId": "d44c5105-7d16-4463-b3a3-a6b9351329e9",
+      "credentials": {
+        "telegramApi": {
+          "id": "yh7BQ485EF5yU3hk",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "📱 Cara Daftar Akun Pintarnya  Ikuti langkah berikut:  1️⃣ Download aplikasi Pintarnya    → Google Play Store atau App Store  2️⃣ Buka app, klik tombol \"Daftar\"  3️⃣ Masukkan nomor HP aktif kamu  4️⃣ Masukkan kode OTP yang dikirim via SMS  5️⃣ Lengkapi profil: nama, pendidikan, pengalaman kerja  6️⃣ Akun siap! Langsung bisa melamar pekerjaan ✅  --- ❓ Masalah lain dengan akun? - Lupa password → ketik \"reset password\" - Tidak terima OTP → pastikan sinyal kuat, coba lagi - Akun diblokir → email ke support@pintarnya.com",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        912,
+        -16
+      ],
+      "id": "f195711e-de99-4376-8035-533255bd06c4",
+      "name": "Send a text message1",
+      "webhookId": "ba2469a8-4ad6-4a6e-a75b-3204d46c3fe6",
+      "credentials": {
+        "telegramApi": {
+          "id": "yh7BQ485EF5yU3hk",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "🏢 Tentang Pintarnya  Pintarnya adalah platform lowongan kerja blue collar #1 di Indonesia.  📌 Profil Perusahaan: - Berdiri: Mei 2022 - Founders: Nelly Nurmalasari, Ghirish Pakerdas, Herry Hendrowan - Misi: Membantu 60 juta pekerja kerah biru dapat kerja layak  ✅ Legalitas & Kepercayaan: - Terdaftar resmi di KEMNAKER - Diawasi oleh KOMINFO - Anti-fraud system terverifikasi  📊 Fakta: - Ribuan lowongan dari ratusan perusahaan - Tersedia di seluruh kota besar Indonesia - 100% GRATIS untuk pencari kerja  🌐 Website: pintarnya.com 📧 Email: hello@pintarnya.com 📸 Instagram: @pintarnya.id",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        912,
+        368
+      ],
+      "id": "904f672c-d4b0-45e8-a9a0-5239bc2c7a6a",
+      "name": "Send a text message2",
+      "webhookId": "156a9ce8-9cb5-4581-8a0a-7eed816356fb",
+      "credentials": {
+        "telegramApi": {
+          "id": "yh7BQ485EF5yU3hk",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=🛠️ Laporan Teknis Diterima!  Terima kasih sudah melaporkan masalah ini. Tim teknis kami akan segera menindaklanjuti.  📋 Info Laporan Kamu: - Pesan: {{ $('Telegram Trigger').item.json.message.text }} - Waktu: {{ $now.toFormat('dd/MM/yyyy HH:mm') }} WIB - User ID: {{ $('Telegram Trigger').item.json.message.from.id }}  📞 Butuh bantuan lebih cepat? - WhatsApp Support: wa.me/628XXXXXXXXX - Email: support@pintarnya.com - Jam layanan: Senin–Jumat 08.00–17.00 WIB  Estimasi respons: 1×24 jam kerja ⏰",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        912,
+        176
+      ],
+      "id": "47d853bd-4368-4923-9d7d-77d6031e8bc3",
+      "name": "Send a text message3",
+      "webhookId": "42b40d92-3fcb-4654-81a0-ba9953834068",
+      "credentials": {
+        "telegramApi": {
+          "id": "yh7BQ485EF5yU3hk",
+          "name": "Telegram account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message3": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "baf6a535-d8eb-4426-b911-d39874900d8d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "9d8bdab8760b2ef144588f7f5d48588b3241350a43b52de237d9aab3a52b0fc4"
+  },
+  "id": "Sc592hm1s1M4rGVl",
+  "tags": []
+}
